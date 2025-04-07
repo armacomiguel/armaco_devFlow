@@ -35,6 +35,9 @@ const RootLayout = async ({children} : {children: React.ReactNode}) => {
 
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />    
+      </head>
       <SessionProvider session={session}>
         <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

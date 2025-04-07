@@ -54,7 +54,7 @@ const AuthForm = <T extends FieldValues>({schema, defaultValues, formType, onSub
                                 + field.name.slice(1)}
                             </FormLabel>
                             <FormControl>
-                                <Input autoComplete="false"
+                                <Input autoComplete="off"
                                     type={field.name === "password" ? "password" : "text"}
                                     {...field}
                                     className="paragraph-regular background-light900_dark300
