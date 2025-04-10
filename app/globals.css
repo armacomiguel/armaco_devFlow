@@ -55,15 +55,9 @@ body {
     @apply bg-light-900 dark:bg-dark-300;
   }
 
-  /* .background-light800_darkgradient {
-    @apply bg-light-800 dark:dark-gradient;
-
-    Importante - dark:dark-gradient no existe, crearlo o borrarlo
-    asi no saldra error de compilacion.
-  } */
-
+  /* ! AGREGADO: bg-dark-600 = dark:dark-gradient*/
   .background-light800_darkgradient {
-    @apply bg-light-800 ;
+    @apply bg-light-800 dark:bg-dark-600;
   }
 
   .background-light800_dark400 {
@@ -293,12 +287,9 @@ body {
     @apply flex justify-start items-center;
   }
 
-  /* .card-wrapper {
-    @apply bg-light-900 dark:dark-gradient shadow-light-100 dark:shadow-dark-100;
-    importante - dark:dark-gradient no existe, crearlo o borrarlo para no tener error.
-  } */
+  /* ! AGREGADO bg-dark-600 = dark:dark-gradient*/
   .card-wrapper {
-    @apply bg-light-900  shadow-light-100 dark:shadow-dark-100;
+    @apply bg-light-900 dark:bg-dark-600 shadow-light-100 dark:shadow-dark-100;
   }
 
   .btn {

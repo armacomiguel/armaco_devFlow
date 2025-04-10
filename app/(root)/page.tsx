@@ -1,36 +1,40 @@
+import QuestionCard from "@/components/cards/QuestionCard";
+import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import Link from "next/link";
 
+const urlImg = "https://lh3.googleusercontent.com/a/ACg8ocKP23pxpMM4qi-wrOOZfJt7JALVl1qX1OPnF54jcrar_oMVuOFA=s288-c-no";
+
 const questions = [
   {
-    _id: 1,
+    _id: "1",
     title: "¿Como utilizar React?",
-    description: "Quiero utilizar react, puedes ayudarme?",
+    // description: "Quiero utilizar react, puedes ayudarme?",
     tags: [
       {_id: "1", name: "React"},
-      {_id: "2", name: "Learn"},
+      {_id: "2", name: "React"},
     ],
-    author: {_id: "1", name: "Miguel Armenta"},
+    author: {_id: "1", name: "Miguel Armenta", image: urlImg},
     upvotes: 10,
-    asnwers: 5,
+    answers: 5,
     views: 100,
-    createAt: new Date(),
+    createdAt: new Date(),
   },
   {
-    _id: 2,
-    title: "¿Como aprender Next 15?",
-    description: "Quiero aprender next, de manera rapida?",
+    _id: "2",
+    title: "¿Como aprender JavasCript?",
+    // description: "Quiero aprender next, de manera rapida?",
     tags: [
-      {_id: "1", name: "Next"},
-      {_id: "2", name: "Learn"},
+      {_id: "1", name: "JavasCript"},
+      {_id: "2", name: "JavasCript"},
     ],
-    author: {_id: "1", name: "John Doe"},
+    author: {_id: "1", name: "John Doe", image: urlImg},
     upvotes: 45,
-    asnwers: 12,
+    answers: 12,
     views: 55,
-    createAt: new Date(),
+    createdAt: new Date(),
   },
 ];
 
@@ -40,11 +44,17 @@ interface SearchParams {
 
 const Home = async ({searchParams}: SearchParams) => {
 
-  const {query = ""} = await searchParams;
+  const {query = "", filter = ""} = await searchParams;
   
-  const filteredQuestions = questions.filter((question) => question.title.toLowerCase().includes(
-    query?.toLowerCase())
-  );
+  const filteredQuestions = questions.filter((question) => {
+    const matchesQuery = question.title
+      .toLowerCase()
+      .includes(query.toLowerCase());
+    const matchesFilter = filter
+      ? question.tags[0].name.toLowerCase() === filter.toLowerCase() : true;
+    
+    return matchesQuery && matchesFilter;
+  });
 
   return (
     <>
@@ -57,6 +67,7 @@ const Home = async ({searchParams}: SearchParams) => {
           </Link>
         </Button>
       </section>
+
       <section className="mt-11">
         <LocalSearch 
           route="/"
@@ -65,10 +76,12 @@ const Home = async ({searchParams}: SearchParams) => {
           otherClasses="flex-1"
         />
       </section>
-      Homefilter
+
+      <HomeFilter />
+
       <div className="mt-10 flex w-full flex-col gap-6">
         {filteredQuestions.map((question) =>(
-          <h1 key={question._id}>{question.title}</h1>
+          <QuestionCard key={question._id} question={question}/>
         ))}
       </div>
     </>
