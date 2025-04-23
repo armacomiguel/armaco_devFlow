@@ -35,7 +35,7 @@ const dbConnect = async (): Promise<Mongoose> => {
                 dbName:"devflow",
             })
             .then((result) => {
-                logger.info("Conexión a MongoDB");
+                logger.info("Conexion a MongoDB");
                 return result;
             }).catch((error) => {
                 logger.error("Error al conectar a MongoDB", error);
