@@ -7,3 +7,9 @@ No se pone el color correcto en la barra de busqueda local.
 
 # 3 Acomodar foto de perfil
 acomodar foto de perfil de la question card. 
+
+# 4 Redirigir y mensajes
+Cuando hago click en el btn sign up deberia salir un toast ya que le doy click y tarda al redirigir.
+
+# 5 Eventos Hover:
+1: Ponerle al btn de Sign Up.

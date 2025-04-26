@@ -16,25 +16,42 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import ROUTES from "@/constants/routes"
+import { ActionResponse } from "@/types/global"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 interface AuthFormProps<T extends FieldValues>{
     schema: ZodType<T>;
     defaultValues: T;
     formType: "SIGN_IN" | "SIGN_UP";
-    onSubmit: (data: T) => Promise<{success: boolean}>;
+    onSubmit: (data: T) => Promise<ActionResponse>;
 }
 
 const AuthForm = <T extends FieldValues>({schema, defaultValues, formType, onSubmit}: AuthFormProps<T>) => {
-  // 1. Define your form.
+ 
+
+    const router = useRouter();
+
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>
   })
 
   // 2. Define a submit handler.
-  const handleSubmit: SubmitHandler<T> = async () => {
+  const handleSubmit: SubmitHandler<T> = async (data) => {
 
-    // TODO : Autenticate User
+   const result = (await onSubmit(data)) as ActionResponse;
+
+   if(result?.success){
+    toast.success('Éxito!',{
+        description: formType === "SIGN_IN" ? "Sign In correctamente" : "Sign Up correctamente",
+    });
+    router.push(ROUTES.HOME);
+   } else {
+    toast.error(`Error ${result?.status}`,{
+        description: result?.error?.message || "Ocurrió un error inesperado",
+    });
+   }
   };
 
   const buttonText = formType === "SIGN_IN" ? "Sign In" : "Sign Up";
@@ -90,7 +107,7 @@ const AuthForm = <T extends FieldValues>({schema, defaultValues, formType, onSub
                     </p>
                 ): (
                     <p>
-                        ¿Tienes una cuenta?{" "}
+                        ¿No tienes una cuenta?{" "}
                         <Link href={ROUTES.SIGN_IN} className="paragraph-semibold primary-text-gradient">
                             Sign in
                         </Link>
