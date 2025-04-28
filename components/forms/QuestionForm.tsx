@@ -2,7 +2,7 @@
 
 import { AskQuestionSchema } from '@/lib/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useRef } from 'react'
+import React, { useRef, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
@@ -11,6 +11,11 @@ import { MDXEditorMethods } from '@mdxeditor/editor';
 import dynamic from 'next/dynamic';
 import { z } from 'zod';
 import TagCard from '../cards/TagCard';
+import { createQuestion } from '@/lib/actions/question.action';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 const Editor = dynamic(() => import("@/components/editor"), {
     ssr: false,
@@ -19,7 +24,9 @@ const Editor = dynamic(() => import("@/components/editor"), {
 
 const QuestionForm = () => {
 
+    const router = useRouter();
     const editorRef = useRef<MDXEditorMethods>(null);
+    const [isPending, startTransition] = useTransition();
 
     const form = useForm<z.infer<typeof AskQuestionSchema>>({
         resolver: zodResolver(AskQuestionSchema),
@@ -67,8 +74,18 @@ const QuestionForm = () => {
         }
     };
 
-    const handleCreateQuestion = (data: z.infer<typeof AskQuestionSchema>) => {
-        console.log(data);
+    const handleCreateQuestion = async(data: z.infer<typeof AskQuestionSchema>) => {
+
+        startTransition(async () => {
+            const result = await createQuestion(data);
+
+            if(result.success){
+                toast.success("Exitoso", {description: "Pregunta creada exitosamente."});
+                if(result.data) router.push(ROUTES.QUESTION(result.data._id));
+            } else {
+                toast.error("Ups!", {description: result.error?.message || "Algo salió mal."});
+            }
+        });
     };
 
   return (
@@ -150,8 +167,16 @@ const QuestionForm = () => {
                 )}
             />
             <div className='mt-16 flex justify-end'>
-                <Button type='submit' className='primary-gradient !text-light-900 w-fit'>
-                    Haz tu pregunta
+                <Button type='submit' className='primary-gradient !text-light-900 w-fit' disabled={isPending}>
+                    {isPending ? (
+                        <>
+                            <ReloadIcon className="mr-2 size-4 animate-spin"/>
+                        </>
+                    ): (
+                        <>
+                            Haz tu pregunta
+                        </>
+                    )}
                 </Button>
 
             </div>
