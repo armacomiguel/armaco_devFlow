@@ -1,10 +1,8 @@
-import { auth } from "@/auth";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { api } from "@/lib/api";
 import Link from "next/link";
 
 const urlImg = "https://lh3.googleusercontent.com/a/ACg8ocKP23pxpMM4qi-wrOOZfJt7JALVl1qX1OPnF54jcrar_oMVuOFA=s288-c-no";
@@ -43,14 +41,8 @@ const questions = [
 interface SearchParams {
   searchParams: Promise<{[key: string]: string}>
 }
-const test = async () => {
-  return await api.users.getAll();
-  
-}
 
 const Home = async ({searchParams}: SearchParams) => {
-
-  
 
   const {query = "", filter = ""} = await searchParams;
   
@@ -63,9 +55,6 @@ const Home = async ({searchParams}: SearchParams) => {
     
     return matchesQuery && matchesFilter;
   });
-
-  const session = await auth();
-  console.log("session: ",session);
 
   return (
     

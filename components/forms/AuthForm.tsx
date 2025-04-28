@@ -44,7 +44,7 @@ const AuthForm = <T extends FieldValues>({schema, defaultValues, formType, onSub
 
    if(result?.success){
     toast.success('Éxito!',{
-        description: formType === "SIGN_IN" ? "Sign In correctamente" : "Sign Up correctamente",
+        description: formType === "SIGN_IN" ? "Inicio de sesión correctamente" : "Cuenta creada correctamente",
     });
     router.push(ROUTES.HOME);
    } else {
