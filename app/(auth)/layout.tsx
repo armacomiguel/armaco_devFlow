@@ -19,7 +19,7 @@ const AuthLayout = ({children}:{children:ReactNode}) => {
             width={50}
             height={50}
             className='object-contain'
-            alt='img fomr'
+            alt='img form'
           />
         </div>
         {children}

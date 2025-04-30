@@ -11,7 +11,7 @@ import { MDXEditorMethods } from '@mdxeditor/editor';
 import dynamic from 'next/dynamic';
 import { z } from 'zod';
 import TagCard from '../cards/TagCard';
-import { createQuestion } from '@/lib/actions/question.action';
+import { createQuestion, editQuestion } from '@/lib/actions/question.action';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
@@ -21,8 +21,13 @@ const Editor = dynamic(() => import("@/components/editor"), {
     ssr: false,
 });
 
+interface Params {
+    question?: Question;
+    isEdit?: boolean;
+}
 
-const QuestionForm = () => {
+
+const QuestionForm = ({question, isEdit = false}: Params) => {
 
     const router = useRouter();
     const editorRef = useRef<MDXEditorMethods>(null);
@@ -31,9 +36,9 @@ const QuestionForm = () => {
     const form = useForm<z.infer<typeof AskQuestionSchema>>({
         resolver: zodResolver(AskQuestionSchema),
         defaultValues: {
-            title: "",
-            content: "",
-            tags: [],
+            title: question?.title || "",
+            content: question?.content || "",
+            tags: question?.tags.map((tag) => tag.name) || [],
         },
     });
 
@@ -55,7 +60,7 @@ const QuestionForm = () => {
             } else if(field.value.includes(tagInput)) {
                 form.setError("tags",{
                     type: "manual",
-                    message: "Tag already exists."
+                    message: "Esta etiqueta ya existe."
                 });
             }
         };
@@ -77,6 +82,23 @@ const QuestionForm = () => {
     const handleCreateQuestion = async(data: z.infer<typeof AskQuestionSchema>) => {
 
         startTransition(async () => {
+
+            if(isEdit && question){
+                const result = await editQuestion({
+                    questionId: question?._id,
+                    ...data,
+                });
+
+                if(result.success){
+                    toast.success("Exitoso", {description: "Pregunta editada exitosamente."});
+                    if(result.data) router.push(ROUTES.QUESTION(result.data._id));
+                } else {
+                    toast.error("Ups!", {description: result.error?.message || "Algo salió mal."});
+                }
+
+                return;
+            }
+
             const result = await createQuestion(data);
 
             if(result.success){
@@ -174,7 +196,7 @@ const QuestionForm = () => {
                         </>
                     ): (
                         <>
-                            Haz tu pregunta
+                           {isEdit ? "Editar pregunta" : "Crear pregunta"}
                         </>
                     )}
                 </Button>

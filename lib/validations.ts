@@ -119,3 +119,19 @@ export const SignWithOAuthSchema = z.object({
     image: z.string().url({ message: "Por favor proporciona una URL válida." }).optional(),
   }),
 });
+
+export const EditQuestionSchema = AskQuestionSchema.extend({
+  questionId: z.string().min(1, { message: "Se requiere ID de pregunta." }),
+});
+
+export const GetQuestionSchema = z.object({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
+});
+
+export const PaginatedSearchParamsSchema = z.object({
+  page: z.number().int().positive().default(1),
+  pageSize: z.number().int().positive().default(10),
+  query: z.string().optional(),
+  filter: z.string().optional(),
+  sort: z.string().optional(),
+});
