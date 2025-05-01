@@ -240,7 +240,7 @@ export async function getQuestions(
       break;
   }
 
-  try {
+  try { 
     const totalQuestions = await Question.countDocuments(filterQuery);
 
     const questions = await Question.find(filterQuery)
