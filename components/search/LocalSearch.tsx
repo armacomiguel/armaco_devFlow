@@ -10,10 +10,11 @@ interface Props {
     route: string;
     imgSrc: string;
     placeholder: string;
-    otherClasses: string;
+    otherClasses?: string;
+    iconPosition?: 'left' | 'right';
 }
 
-const LocalSearch = ({route, imgSrc, placeholder, otherClasses}: Props) => {
+const LocalSearch = ({route, imgSrc, placeholder, otherClasses, iconPosition="left"}: Props) => {
 
     const pathname = usePathname();
     const router = useRouter();
@@ -52,7 +53,8 @@ const LocalSearch = ({route, imgSrc, placeholder, otherClasses}: Props) => {
     <div className={`background-light800_darkgradient flex min-h-[56px] 
         grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}>
 
-        <Image src={imgSrc} width={24} height={24} alt='search' className='cursor-pointer'/>
+        {iconPosition === "left" && <Image src={imgSrc} width={24} height={24} alt='search' className='cursor-pointer'/>}
+        
         <Input 
             type='text' 
             placeholder={placeholder} 
@@ -61,6 +63,8 @@ const LocalSearch = ({route, imgSrc, placeholder, otherClasses}: Props) => {
             className='paragraph-regular no-focus placeholder text-dark400_light700 border none shadow-none
             outline-none'
         />
+
+    {iconPosition === "right" && <Image src={imgSrc} width={15} height={15} alt='search' className='cursor-pointer'/>}
     </div>
   )
 }
