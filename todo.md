@@ -14,3 +14,6 @@ Cuando hago click en el btn sign up deberia salir un toast ya que le doy click y
 # 5 Eventos Hover:
 1: Ponerle al btn de Sign Up.
 2: en el btn de haz tu pregunta pagina de preguntas.
+
+# 6 Etiquetas
+Ordenar las etiquetas de mayor numero de uso a menor.
