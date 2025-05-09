@@ -8,7 +8,9 @@ import Tag, { ITagDoc } from "@/database/tag.model";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
-import { AskQuestionSchema, EditQuestionSchema, GetQuestionSchema, PaginatedSearchParamsSchema } from "../validations";
+import { AskQuestionSchema, EditQuestionSchema, GetQuestionSchema, IncrementViewSchema, PaginatedSearchParamsSchema } from "../validations";
+import { revalidatePath } from "next/cache";
+import ROUTES from "@/constants/routes";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -183,7 +185,7 @@ export async function getQuestion(
   const { questionId } = validationResult.params!;
 
   try {
-    const question = await Question.findById(questionId).populate("tags");
+    const question = await Question.findById(questionId).populate("tags").populate("author", "_id name image");
     if (!question) {
       throw new Error("Pregunta no encontrada.");
     }
@@ -257,6 +259,40 @@ export async function getQuestions(
       success: true,
       data: { questions: JSON.parse(JSON.stringify(questions)), isNext },
     };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function incrementViews(params:IncrementViewsParams):Promise<ActionResponse<{views:number}>>{
+
+  const validationResult = await action({
+    params,
+    schema: IncrementViewSchema,
+  });
+
+  if(validationResult instanceof Error){
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const {questionId} = validationResult.params!;
+
+  try {
+    const question = await Question.findById(questionId);
+
+    if(!question){
+      throw new Error("Pregunta no encontrada");
+    }
+
+    question.views +=1;
+    await question.save();
+
+    revalidatePath(ROUTES.QUESTION(questionId));
+    
+    return {
+      success: true,
+      data: {views: question.views},
+    }
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }

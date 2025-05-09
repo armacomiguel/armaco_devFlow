@@ -17,3 +17,6 @@ Cuando hago click en el btn sign up deberia salir un toast ya que le doy click y
 
 # 6 Etiquetas
 Ordenar las etiquetas de mayor numero de uso a menor.
+
+# 7 Reemplazar o editar componete:
+.1 MDXRemote - Truena, instale librerias pero no se porque truena, ya revise y compare codigo.
