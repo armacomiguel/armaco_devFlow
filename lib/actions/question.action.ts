@@ -9,8 +9,6 @@ import Tag, { ITagDoc } from "@/database/tag.model";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { AskQuestionSchema, EditQuestionSchema, GetQuestionSchema, IncrementViewSchema, PaginatedSearchParamsSchema } from "../validations";
-import { revalidatePath } from "next/cache";
-import ROUTES from "@/constants/routes";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -286,8 +284,6 @@ export async function incrementViews(params:IncrementViewsParams):Promise<Action
 
     question.views +=1;
     await question.save();
-
-    revalidatePath(ROUTES.QUESTION(questionId));
     
     return {
       success: true,

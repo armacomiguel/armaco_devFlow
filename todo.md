@@ -20,3 +20,4 @@ Ordenar las etiquetas de mayor numero de uso a menor.
 
 # 7 Reemplazar o editar componete:
 .1 MDXRemote - Truena, instale librerias pero no se porque truena, ya revise y compare codigo.
+2. en la pagina de crear respues form, se usa el editor, el texto que pone sen el front, no se ve, como que le fallán los estilos.
