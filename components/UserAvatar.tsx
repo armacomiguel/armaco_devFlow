@@ -9,7 +9,7 @@ interface Props {
     id: string;
     name: string;
     imageUrl?: string | null;
-    fallbackClassName: string;
+    fallbackClassName?: string;
     className?: string;
 }
 

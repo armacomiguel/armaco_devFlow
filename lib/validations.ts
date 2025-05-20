@@ -147,3 +147,11 @@ export const IncrementViewSchema = z.object({
 export const AnswerSchema = z.object({
   content: z.string().min(100,{message: "La respuesta debe tener mas de 100 caracteres."}),
 });
+
+export const AnswerServerSchema = AnswerSchema.extend({
+  questionId: z.string().min(1,{message: "Question id es obligatorio."}),
+});
+
+export const GetAnswersSchema = PaginatedSearchParamsSchema.extend({
+  questionId: z.string().min(1,{message: "Question id es obligatorio."}),
+});

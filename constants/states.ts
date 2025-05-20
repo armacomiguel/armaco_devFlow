@@ -36,6 +36,15 @@ export const EMPTY_TAGS = {
     },
 };
 
+export const EMPTY_ANSWERS = {
+    title: "Sin respuestas para mostrar",
+    message: "Puedes dejar el primer comentario.",
+    button: {
+        text: "Agregar respuesta",
+        href: ROUTES.HOME
+    },
+};
+
 export const EMPTY_COLLECTIONS = {
     title: "Las colecciones están vacías",
     message: "No hay colecciones disponibles en este momento.",
