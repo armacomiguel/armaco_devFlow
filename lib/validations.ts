@@ -155,3 +155,19 @@ export const AnswerServerSchema = AnswerSchema.extend({
 export const GetAnswersSchema = PaginatedSearchParamsSchema.extend({
   questionId: z.string().min(1,{message: "Question id es obligatorio."}),
 });
+
+export const AIAnswerSchema = z.object({
+  question: z.string().min(5, {message: "La pregunta es obligatoria."}).max(130, {message: "maximo son 130 caracteres."}),
+  content: z.string().min(100, {message: "La respuesta debe tener más de 100 caracteres."}),
+  userAnswer: z.string().optional(),
+});
+
+export const CreateVoteSchema = z.object({
+  targetId: z.string().min(1, {message: "Target ID es obligatorio."}),
+  targetType: z.enum(["question", "answer"], {message: "target type es invalido."}),
+  voteType: z.enum(["upvote", "downvote"], {message: "vote type es invalido."}),
+});
+
+export const UpdateVoteCountSchema = CreateVoteSchema.extend({
+  change: z.number().int().min(-1).max(1),
+});
