@@ -24,7 +24,7 @@ export class ValidationError extends RequestError{
                 const fieldName = field.charAt(0).toLowerCase() + field.slice(1);
 
                 if(messages[0] === "Required"){
-                    return `${fieldName} is required.`;
+                    return `${fieldName} es obligatorio.`;
                 } else {
                     return messages.join(" and ");
                 }

@@ -125,7 +125,7 @@ export const EditQuestionSchema = AskQuestionSchema.extend({
 });
 
 export const GetQuestionSchema = z.object({
-  questionId: z.string().min(1, { message: "Question ID is required." }),
+  questionId: z.string().min(1, { message: "Question ID es obligatorio." }),
 });
 
 export const PaginatedSearchParamsSchema = z.object({
@@ -170,4 +170,9 @@ export const CreateVoteSchema = z.object({
 
 export const UpdateVoteCountSchema = CreateVoteSchema.extend({
   change: z.number().int().min(-1).max(1),
+});
+
+export const HasVotedSchema = CreateVoteSchema.pick({
+  targetId: true,
+  targetType: true,
 });
