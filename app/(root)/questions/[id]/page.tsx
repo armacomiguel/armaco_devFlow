@@ -67,15 +67,15 @@ const QuestionDetails = async ({params}: RouteParams) => {
             </Link>
           </div>
           <div className='flex justify-end'>
-          <Suspense fallback={<div>Cargando...</div>}>
-            <Votes 
-              upvotes={question.upvotes}
-              downvotes={question.downvotes}
-              targetType="question"
-              targetId={question._id}
-              hasVotedPromise={hasVotedPromise}
-            />
-          </Suspense> 
+            <Suspense fallback={<div>Cargando...</div>}>
+              <Votes 
+                upvotes={question.upvotes}
+                downvotes={question.downvotes}
+                targetType="question"
+                targetId={question._id}
+                hasVotedPromise={hasVotedPromise}
+              />
+            </Suspense> 
           </div>
         </div>
         <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full'>{title}</h2>
