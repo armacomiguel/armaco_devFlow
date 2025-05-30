@@ -40,7 +40,7 @@ export const getTags = async (params:PaginatedSearchParams):Promise<ActionRespon
             sortCriteria = {name: 1};
             break;
         default:
-            sortCriteria = {createdAt: -1};
+            sortCriteria = {questions: -1};
             break;
     }
 

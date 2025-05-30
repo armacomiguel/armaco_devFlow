@@ -41,7 +41,7 @@ export async function createAnswer(params: CreateAnswerParams):Promise<ActionRes
 
         if(!newAnswer) throw new Error("Falló al crear la nueva respuesta.");
 
-        question.answer += 1;
+        question.answers += 1;
         await question.save({session});
 
         await session.commitTransaction();
