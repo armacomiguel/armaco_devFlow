@@ -3,6 +3,7 @@ import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { GetTagQuestionsSchema, PaginatedSearchParamsSchema } from "../validations";
 import { FilterQuery } from "mongoose";
+import dbConnect from "../mongoose";
 
 export const getTags = async (params:PaginatedSearchParams):Promise<ActionResponse<{tags: Tag[]; isNext: boolean}>> => {
     const validationResult = await action({
@@ -111,4 +112,19 @@ export const getTagQuestions = async (params:GetTagQuestionsParams):Promise<Acti
         return handleError(error) as ErrorResponse;
         
     }
+}
+
+export const getTopTags = async ():Promise<ActionResponse<Tag[]>> => {
+  try {
+    await dbConnect();
+
+    const tags = await Tag.find().sort({questions: -1}).limit(5);
+
+      return {
+        success: true,
+        data: JSON.parse(JSON.stringify(tags)),
+      }
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
 }

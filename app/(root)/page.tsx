@@ -2,6 +2,7 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/filters/CommonFilter";
 import HomeFilter from "@/components/filters/HomeFilter";
+import Pagination from "@/components/Pagination";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
@@ -10,10 +11,6 @@ import { EMPTY_QUESTION } from "@/constants/states";
 import { Question } from "@/database";
 import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
-
-const urlImg = "https://lh3.googleusercontent.com/a/ACg8ocKP23pxpMM4qi-wrOOZfJt7JALVl1qX1OPnF54jcrar_oMVuOFA=s288-c-no";
-
-
 
 interface SearchParams {
   searchParams: Promise<{[key: string]: string}>
@@ -30,7 +27,7 @@ const Home = async ({searchParams}: SearchParams) => {
     filter: filter || "",
   });
 
-  const {questions} = data || {};
+  const {questions, isNext} = data || {};
   
   // const filteredQuestions = questions.filter((question) => {
   //   const matchesQuery = question.title
@@ -83,6 +80,7 @@ const Home = async ({searchParams}: SearchParams) => {
           </div>
         )}
       />
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };

@@ -180,3 +180,7 @@ export const HasVotedSchema = CreateVoteSchema.pick({
 export const CollectionBaseSchema = z.object({
   questionId: z.string().min(1,{message: "Question id es obligatorio."}),
 });
+
+export const GetUserSchema = z.object({
+  userId: z.string().min(1,{message: "User id es obligatorio."}),
+});
