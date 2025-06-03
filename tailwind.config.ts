@@ -33,6 +33,9 @@ const config = {
           500: "#7B8EC8",
           400: "#858EAD",
         },
+        link: {
+          '100': "#1DA1F2"
+        }
       },
       boxShadow: {
         "light-100":
