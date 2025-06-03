@@ -4,6 +4,7 @@ correctamente los searchs params
 
 # 2 Revisar estilos darks
 No se pone el color correcto en la barra de busqueda local.
+- revisar el flag !important, sale error, y lo usa el estilo "tab" pero no le aplica porque sale error.
 
 # 3 Acomodar foto de perfil
 acomodar foto de perfil de la question card. 
