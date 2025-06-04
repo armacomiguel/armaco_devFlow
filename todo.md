@@ -23,5 +23,8 @@ Ordenar las etiquetas de mayor numero de uso a menor.
 .1 MDXRemote - Truena, instale librerias pero no se porque truena, ya revise y compare codigo.
 2. en la pagina de crear respues form, se usa el editor, el texto que pone sen el front, no se ve, como que le fallán los estilos.
 
-# Filtros
+# 8 Filtros
 Implementar un filtro en la pagina de tags, cuando abres todas de la misma etiqueta. ejemplo todas las de react.
+
+# 9 Skeleton
+Skeleton en la pagina editar pregunta.

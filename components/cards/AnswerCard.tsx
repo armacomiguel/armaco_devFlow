@@ -6,14 +6,16 @@ import { cn, getTimeStamp } from '@/lib/utils';
 import { Preview } from '../editor/Preview';
 import Votes from '../votes/Votes';
 import { hasVoted } from '@/lib/actions/vote.action';
+import EditDeleteAction from '../user/EditDeleteAction';
 
 interface Props extends Answer {
   containerClasses? : string;
   showReadMore? : boolean;
+  showActionBtns?: boolean;
 }
 
 const AnswerCard = ({_id, author, content, createdAt, upvotes, 
-  downvotes, question, containerClasses, showReadMore = false}: Props) => {
+  downvotes, question, containerClasses, showReadMore = false, showActionBtns = false}: Props) => {
 
   const hasVotedPromise = hasVoted({
     targetId:_id,
@@ -21,44 +23,49 @@ const AnswerCard = ({_id, author, content, createdAt, upvotes,
   });
 
   return (
-    <article className={cn('light-border border-b py-10', containerClasses)}>
-        <span id={`answer-${_id}`} className='hash-span' />
-        <div className='mb-5 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
-            <div className="flex flex-1 items-start gap-1 sm:items-center">
-                <UserAvatar
-                    id={author._id}
-                    name={author.name}
-                    imageUrl={author.image}
-                    className='size-5 rounded-full object-cover max-sm:mt-2'
-                />
-                <Link href={ROUTES.PROFILE(author._id)}>
-                    <p className='body-semibold text-dark300_light700'>{author.name ?? "Anonimo"}</p>
-                    <p className='small-regular text-light400_light500 ml-0.5 mt-0.5 line-clamp-1'>
-                        <span className='max-sm:hidden'>
-                            Respondido hace {getTimeStamp(createdAt)}
-                        </span>
-                    </p>
-                </Link>
-            </div>
-            <div className='flex justify-end'>
-            <Suspense fallback={<div>Cargando...</div>}>
-              <Votes 
-                upvotes={upvotes}
-                downvotes={downvotes}
-                targetType="answer"
-                targetId={_id}
-                hasVotedPromise={hasVotedPromise}
-              />
-            </Suspense> 
-          </div>
+    <article className={cn('light-border border-b py-10 relative', containerClasses)}>
+      <span id={`answer-${_id}`} className='hash-span' />
+      {showActionBtns && (
+        <div className='bg-[#1a1e29] flex-center absolute -right-1 -top-1 rounded-full p-2 cursor-pointer'>
+          <EditDeleteAction type="Answer" itemId={_id} />
         </div>
-        <Preview content={content}/>
+      )}
+      <div className='mb-5 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
+          <div className="flex flex-1 items-start gap-1 sm:items-center">
+              <UserAvatar
+                  id={author._id}
+                  name={author.name}
+                  imageUrl={author.image}
+                  className='size-5 rounded-full object-cover max-sm:mt-2'
+              />
+              <Link href={ROUTES.PROFILE(author._id)}>
+                  <p className='body-semibold text-dark300_light700'>{author.name ?? "Anonimo"}</p>
+                  <p className='small-regular text-light400_light500 ml-0.5 mt-0.5 line-clamp-1'>
+                      <span className='max-sm:hidden'>
+                          Respondido hace {getTimeStamp(createdAt)}
+                      </span>
+                  </p>
+              </Link>
+          </div>
+          <div className='flex justify-end'>
+          <Suspense fallback={<div>Cargando...</div>}>
+            <Votes 
+              upvotes={upvotes}
+              downvotes={downvotes}
+              targetType="answer"
+              targetId={_id}
+              hasVotedPromise={hasVotedPromise}
+            />
+          </Suspense> 
+        </div>
+      </div>
+      <Preview content={content}/>
 
-        {showReadMore && (
-          <Link href={`/questions/${question}#answer-${_id}`} className='body-semibold relative z-10 font-space-grotesk text-primary-500'>
-            <p className='mt-1'>Leer más...</p>
-          </Link>
-        )}
+      {showReadMore && (
+        <Link href={`/questions/${question}#answer-${_id}`} className='body-semibold relative z-10 font-space-grotesk text-primary-500'>
+          <p className='mt-1'>Leer más...</p>
+        </Link>
+      )}
     </article>
   )
 }

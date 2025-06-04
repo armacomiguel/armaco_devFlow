@@ -7,20 +7,20 @@ import React from 'react'
 
 const EditQuestion = async ({params}: RouteParams) => {
 
-    const {id} = await params;
-    if (!id) return notFound();
+  const {id} = await params;
+  if (!id) return notFound();
 
   const session = await auth();
   if (!session) return redirect('/sign-in');
 
   const {data: question, success} = await getQuestion({questionId: id});
   if (!success) return notFound();
-console.log(question?.author.toString(),session?.user?.id);
+  console.log(question?.author._id.toString(),session?.user?.id);
   if(question?.author.toString() !== session?.user?.id) redirect(ROUTES.QUESTION(id));
 
   return (
     <main>
-        <QuestionForm question={question} isEdit/>
+      <QuestionForm question={question} isEdit/>
     </main>
   )
 }
