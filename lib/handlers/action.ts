@@ -1,7 +1,7 @@
 'use server';
 
 import { ZodError, ZodSchema } from "zod";
-import { UnauthorizedError, ValidationError } from "../http-erros";
+import { UnauthorizedError, ValidationError } from "../http-errors";
 import { Session } from "next-auth";
 import { auth } from "@/auth";
 import dbConnect from "../mongoose";

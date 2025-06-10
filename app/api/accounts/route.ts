@@ -3,7 +3,7 @@ import handleError from "@/lib/handlers/error";
 import dbConnect from "@/lib/mongoose";
 import { APIErrorResponse } from "@/types/global";
 import { AccountSchema } from "@/lib/validations";
-import { ForbiddenError } from "@/lib/http-erros";
+import { ForbiddenError } from "@/lib/http-errors";
 import Account from "@/database/account.model";
 
 export async function GET(){
