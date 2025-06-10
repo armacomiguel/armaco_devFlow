@@ -28,3 +28,13 @@ Implementar un filtro en la pagina de tags, cuando abres todas de la misma etiqu
 
 # 9 Skeleton
 Skeleton en la pagina editar pregunta.
+
+# 10 Error
+error en pagina inicial de collections:(cuando no tiene datos para mostrar.)
+input must be a 24 character hex string, 12 byte Uint8Array, or an integer 
+
+# 11 Eliminar boton
+boton de agregar respuesta, cuando una pregunta no tieene respuestas eliminar boton del skeleton.
+
+# SECCION COMPLETA DE JOBS.
+REVISARLA

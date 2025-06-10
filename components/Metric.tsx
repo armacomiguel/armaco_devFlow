@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Avatar, AvatarFallback } from './ui/avatar'
 
 interface Props {
   imgUrl: string;
@@ -15,26 +16,31 @@ interface Props {
   titleStyles?: string;
 }
 
-const Metric = ({
-  imgUrl,
-  alt,
-  value,
-  title,
-  href,
-  textStyles,
-  imgStyles,
-  isAuthor,
-  titleStyles,
-}: Props) => {
+const Metric = ({imgUrl, alt, value, title, href, textStyles, imgStyles, isAuthor, titleStyles}: Props) => {
+
+  const initials = alt.split(' ').map((word: string) => word[0]).join("").toUpperCase().slice(0,2);
+  
   const metricContent = (
-      <>
-        <Image
-        src={imgUrl}
-        width={16}
-        height={16}
-        alt={alt}
-        className={`rounded-full object-contain ${imgStyles}`}
-      />
+    <>
+      {
+        imgUrl ? (
+          <Image
+            src={imgUrl}
+            width={16}
+            height={16}
+            alt={alt}
+            className={`rounded-full object-contain ${imgStyles}`}
+            />
+        ) : (
+          <Avatar className="h-4 w-4">
+            <AvatarFallback className={cn('primary-gradient font-space-grotesk tracking-wider text-white', imgStyles)}>
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+        )
+      }
+        
+      
         <p className={`${textStyles} flex items-center gap-1`}>
         {value}
 
@@ -45,7 +51,7 @@ const Metric = ({
         ) : null}
       </p>
       </>
-    );
+  );
 
   return href ? (
     <Link href={href} className="flex-center gap-1">

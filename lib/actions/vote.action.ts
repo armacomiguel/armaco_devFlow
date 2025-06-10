@@ -7,6 +7,8 @@ import { CreateVoteSchema, HasVotedSchema, UpdateVoteCountSchema } from "../vali
 import mongoose, { ClientSession } from "mongoose";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
+import { after } from "next/server";
+import { createInteraction } from "./interaction.action";
 
 
 export async function updateVoteCount(params:UpdateVoteCountParams, session?: ClientSession): Promise<ActionResponse>{
@@ -62,6 +64,14 @@ export async function createVote(params:CreateVoteParams): Promise<ActionRespons
     session.startTransaction();
 
     try {
+
+        const Model = targetType === "question" ? Question : Answer;
+
+        const contentDoc = await Model.findById(targetId).session(session);
+        if (!contentDoc) throw new Error("Content not found");
+
+        const contentAuthorId = contentDoc.author.toString();
+
         const existingVote = await Vote.findOne({
             author: userId,
             actionId: targetId,
@@ -89,6 +99,15 @@ export async function createVote(params:CreateVoteParams): Promise<ActionRespons
 
             await updateVoteCount({targetId, targetType, voteType, change: 1}, session);
         }
+
+        after(async () => {
+            await createInteraction({
+                action: voteType,
+                actionId: targetId,
+                actionTarget: targetType,
+                authorId: contentAuthorId,
+            });
+        });
 
         await session.commitTransaction();
         session.endSession();

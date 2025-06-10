@@ -20,12 +20,34 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Dev Overflow",
-  description:
-    "A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
+  description: "A community for asking and answering programming questions.",
   icons: {
-    icon: "/images/site-logo.svg",
+    icon: "/icons/favicon.svg",
+    shortcut: "/icons/favicon-shortcut.png",
+    apple: "/icons/apple-icon.png",
+  },
+  keywords: ["programming", "web development", "Q&A", "developers", "tech help"],
+  authors: [
+    { name: "Miguel Armenta" },
+    { name: "Dev Team" },
+  ],
+  openGraph: {
+    title: "Dev Overflow | Ask & Answer Programming Questions",
+    description: "Explore coding topics with help from the global dev community.",
+    url: "https://devoverflow.dev",// cambiar url cuando se publique.
+    siteName: "Dev Overflow",
+    images: [
+      {
+        url: "/images/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "Dev Overflow OG Banner",
+      },
+    ],
+    locale: "es_MX",
+    type: "website",
   },
 };
 

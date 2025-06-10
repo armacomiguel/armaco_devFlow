@@ -84,3 +84,58 @@ interface GetUserAnswersParams extends PaginatedSearchParams {
 interface GetUserTagsParams {
   userId: string;
 }
+
+interface DeleteQuestionParams {
+  questionId: string;
+}
+
+interface DeleteAnswerParams {
+  answerId: string;
+}
+
+interface CreateInteractionParams {
+  action:
+    | "view"
+    | "upvote"
+    | "downvote"
+    | "bookmark"
+    | "post"
+    | "edit"
+    | "delete"
+    | "search";
+  actionId: string;
+  authorId: string;
+  actionTarget: "question" | "answer";
+}
+
+interface UpdateReputationParams {
+  interaction: IInteractionDoc;
+  session: mongoose.ClientSession;
+  performerId: string;
+  authorId: string;
+}
+
+interface RecommendationParams {
+  userId: string;
+  query?: string;
+  skip: number;
+  limit: number;
+}
+
+interface JobFilterParams {
+  query: string;
+  page: string;
+}
+
+interface UpdateUserParams {
+  name?: string;
+  username?: string;
+  email?: string;
+  image?: string;
+  password?: string;
+}
+
+interface GlobalSearchParams {
+  query: string;
+  type: string | null;
+}
